@@ -423,3 +423,15 @@ document.addEventListener("mouseup", (e) => {
     currentPlayer.holding = false;
   }
 });
+
+document.addEventListener("touchstart", (e) => {
+  if (currentScreen === "playing") {
+    currentPlayer.holding = true;
+  }
+});
+
+document.addEventListener("touchstart", (e) => {
+  if (currentScreen === "playing") {
+    currentPlayer.holding = false;
+  }
+});
