@@ -11,6 +11,7 @@ deathSound.volume = 0.1;
 
 const menuLoop = new Audio("resources/menuLoop.mp3");
 menuLoop.volume = 0.3;
+menuLoop.loop = true;
 
 let tps = 300;
 
