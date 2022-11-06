@@ -14,7 +14,7 @@ menuLoop.volume = 0.3;
 
 let tps = 300;
 
-let gridLength = 73;
+let gridLength = canvas.width / 19.7;
 
 const cubeImage = new Image();
 cubeImage.src = "resources/coakmuffer.jpeg";
