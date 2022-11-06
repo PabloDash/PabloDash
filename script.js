@@ -427,4 +427,20 @@ function release() {
   if (currentScreen === "playing") {
     currentPlayer.holding = false;
   }
+<<<<<<< HEAD
 }
+=======
+});
+
+document.addEventListener("touchstart", (e) => {
+  if (currentScreen === "playing") {
+    currentPlayer.holding = true;
+  }
+});
+
+document.addEventListener("touchstart", (e) => {
+  if (currentScreen === "playing") {
+    currentPlayer.holding = false;
+  }
+});
+>>>>>>> b2a5545b49a6e137ecb4e4517f7da088d9f7c936
