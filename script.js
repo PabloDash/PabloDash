@@ -7,7 +7,7 @@ canvas.height = window.innerHeight;
 const tau = 2 * Math.PI;
 
 const deathSound = new Audio("resources/explode_11.mp3");
-deathSound.volume = 0.1;
+deathSound.volume = 0.07;
 
 const menuLoop = new Audio("resources/menuLoop.mp3");
 menuLoop.volume = 0.3;
@@ -78,7 +78,7 @@ levelSelectorDiv.remove();
 const gamemodes = {
   cube: {
     hitbox: { left: 0, right: 0, top: 0, bottom: 0 },
-    hitboxForBlocks: { left: 0, right: 0, top: 20, bottom: 20 },
+    hitboxForBlocks: { left: 0, right: 0, top: 20, bottom: 35 },
     image: cubeImage,
   },
   wave: {
@@ -158,24 +158,20 @@ let currentPlayer;
 
 let lastDistanceMovedWhenRendered;
 function nextTick() {
+  if (currentPlayer.isDead) return;
   // tickTime = Date.now();
   // console.log(tickTime - lastTickTime);
   // lastTickTime = tickTime;
 
-  currentAttempt.tick++;
-  //console.log(currentPlayer.angle);
-  //console.log(currentPlayer.hitbox);
-  //console.log(currentPlayer.fall);
-  //console.log(currentPlayer.jump);
-  //console.log(currentPlayer.pos.y, currentGround.y);
-  // let potentialTick = Math.round(
-  //   ((Date.now() - currentAttempt.startTime) * tps) / 1000
-  // );
-  // if (potentialTick - currentAttempt.tick == 2) {
+  //currentAttempt.tick++;
+
+  // let potentialTick = ((Date.now() - currentAttempt.startTime) * tps) / 1000;
+  // if (potentialTick === currentAttempt.tick) {
   //   currentAttempt.tick++;
   // } else {
   //   currentAttempt.tick = potentialTick;
   // }
+  currentAttempt.tick = ((Date.now() - currentAttempt.startTime) * tps) / 1000;
   //console.log(currentAttempt.tick);
   currentAttempt.distanceMoved = currentAttempt.tick * currentAttempt.speed;
   if (
@@ -263,7 +259,7 @@ function animate() {
   if (currentScreen === "playing") {
     animationFrame = window.requestAnimationFrame(animate);
   }
-  if (currentScreen == "playing" && !currentPlayer.isDead) {
+  if (currentScreen == "playing") {
     //console.log("fps tick");
     nextTick();
 
@@ -296,6 +292,7 @@ function checkCollision(rect1, rect2) {
 }
 function death() {
   console.log("broooooo");
+  console.log(currentAttempt.tick);
   currentPlayer.isDead = true;
 
   //console.log(currentAttempt.renderedBlocks, currentAttempt.renderedHazards);
@@ -310,7 +307,7 @@ function death() {
   //     newAttempt();
   //   }
   // }, 1000);
-  setTimeout(newAttempt, 1000, currentAttempt.intervalID);
+  setTimeout(newAttempt, 1000 /*, currentAttempt.intervalID*/);
 }
 
 function playMenuLoop() {
@@ -370,6 +367,7 @@ function startAttempt(levelObjs, levelSong, offset = 0) {
 
   drawStuff();
   setTimeout(() => {
+    currentPlayer.isDead = false;
     currentAttempt.startTime = Date.now();
     currentAttempt.song.play();
 
@@ -455,13 +453,21 @@ document.addEventListener("touchstart", click);
 document.addEventListener("touchend", release);
 
 function click() {
-  if (currentScreen === "playing") {
-    currentPlayer.holding = true;
+  if (currentScreen === "playing" && !currentPlayer.isDead) {
+    currentPlayer.hold = {
+      isHolding: true,
+      startTime: Date.now() - currentAttempt.startTime,
+    };
+    //currentPlayer.holding = true;
   }
 }
 
 function release() {
-  if (currentScreen === "playing") {
-    currentPlayer.holding = false;
+  if (currentScreen === "playing" && !currentPlayer.isDead) {
+    currentPlayer.hold = {
+      isHolding: false,
+      startTime: Date.now() - currentAttempt.startTime,
+    };
+    //currentPlayer.holding = false;
   }
 }
