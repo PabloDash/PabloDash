@@ -418,26 +418,29 @@ class Player {
   }
 
   doJump(colorType, tickStarted = currentAttempt.tick) {
-    console.log(tickStarted);
-    if (this.gamemode === "wave" && this.fall.isFalling) {
-      this.renderedWaveTrails.push({
-        startDistanceMoved: this.fall.tickStarted * currentAttempt.speed,
-        startHeight: this.fall.heightStarted,
-        angle: -Math.PI / 4,
-        endDistanceMoved: tickStarted * currentAttempt.speed,
-        endHeight:
-          this.fall.heightStarted -
-          (tickStarted - this.fall.tickStarted) * currentAttempt.speed,
-      });
-    }
-    if (this.slide.isSliding) {
-      this.renderedWaveTrails.push({
-        startDistanceMoved: this.slide.tickStarted * currentAttempt.speed,
-        startHeight: this.slide.height + this.sideLength - this.hitbox.bottom,
-        angle: 0,
-        endDistanceMoved: tickStarted * currentAttempt.speed,
-        endHeight: this.pos.y,
-      });
+    console.log(currentAttempt.tick);
+    console.trace("tracin");
+    if (this.gamemode === "wave") {
+      if (this.fall.isFalling) {
+        this.renderedWaveTrails.push({
+          startDistanceMoved: this.fall.tickStarted * currentAttempt.speed,
+          startHeight: this.fall.heightStarted,
+          angle: -Math.PI / 4,
+          endDistanceMoved: tickStarted * currentAttempt.speed,
+          endHeight:
+            this.fall.heightStarted -
+            (tickStarted - this.fall.tickStarted) * currentAttempt.speed,
+        });
+      }
+      if (this.slide.isSliding) {
+        this.renderedWaveTrails.push({
+          startDistanceMoved: this.slide.tickStarted * currentAttempt.speed,
+          startHeight: this.slide.height + this.sideLength - this.hitbox.bottom,
+          angle: 0,
+          endDistanceMoved: tickStarted * currentAttempt.speed,
+          endHeight: this.pos.y,
+        });
+      }
     }
     this.slide.isSliding = false;
     this.fall.isFalling = false;
@@ -515,7 +518,8 @@ class Player {
     switch (this.gamemode) {
       case "cube":
         if (this.slide.isSliding && this.hold.isHolding) {
-          this.doJump("", this.hold.startTime * tps) / 1000;
+          this.doJump("", (this.hold.startTime * tps) / 1000);
+          console.log(this.fall.isFalling, this.jump.isJumping);
         }
         if (this.jump.isJumping) {
           this.angle =
@@ -529,6 +533,7 @@ class Player {
         if (this.jump.isJumping) {
           //this.pos.y += (13.2 - this.airTime) / 1.1;
           let jumpProgress;
+          console.log(this.pos.y, this.jump.heightStarted);
           switch (this.jump.type) {
             case "yellowPad":
               jumpProgress =
@@ -560,11 +565,11 @@ class Player {
                   gridLength * (-9.6 * jumpProgress + 9.5);
               }
               break;
-
             default:
               jumpProgress =
                 (currentAttempt.tick + 1 - this.jump.tickStarted) *
                 (60 / 26 / tps);
+              console.log(currentAttempt.tick - this.jump.tickStarted);
               if (jumpProgress < 1.1) {
                 this.pos.y =
                   this.jump.heightStarted +
@@ -575,7 +580,7 @@ class Player {
                   this.jump.heightStarted +
                   gridLength * (-9.6 * jumpProgress + 9.5);
               }
-              if (this.pos.y <= this.sideLength) {
+              if (this.pos.y < this.sideLength) {
                 this.land(0);
               }
               break;
