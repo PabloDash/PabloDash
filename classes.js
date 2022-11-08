@@ -368,13 +368,17 @@ class Player {
     }
     this.jump.isJumping = false;
     while (currentAttempt.renderedWaveTrails.length > 0) {
-      console.log("deletingre");
       currentAttempt.renderedWaveTrails.shift();
     }
-    if (gamemode != "cube") {
-      this.doFall();
-    } else {
+    if (gamemode === "cube") {
+      this.unrenderAllWaveTrails();
       this.doFall("mid");
+    } else {
+      if (this.hold.isHolding) {
+        this.doJump();
+      } else {
+        this.doFall();
+      }
     }
   }
 
@@ -418,8 +422,6 @@ class Player {
   }
 
   doJump(colorType, tickStarted = currentAttempt.tick) {
-    console.log(currentAttempt.tick);
-    console.trace("tracin");
     if (this.gamemode === "wave") {
       if (this.fall.isFalling) {
         this.renderedWaveTrails.push({
@@ -519,7 +521,6 @@ class Player {
       case "cube":
         if (this.slide.isSliding && this.hold.isHolding) {
           this.doJump("", (this.hold.startTime * tps) / 1000);
-          console.log(this.fall.isFalling, this.jump.isJumping);
         }
         if (this.jump.isJumping) {
           this.angle =
@@ -533,7 +534,6 @@ class Player {
         if (this.jump.isJumping) {
           //this.pos.y += (13.2 - this.airTime) / 1.1;
           let jumpProgress;
-          console.log(this.pos.y, this.jump.heightStarted);
           switch (this.jump.type) {
             case "yellowPad":
               jumpProgress =
@@ -569,7 +569,6 @@ class Player {
               jumpProgress =
                 (currentAttempt.tick + 1 - this.jump.tickStarted) *
                 (60 / 26 / tps);
-              console.log(currentAttempt.tick - this.jump.tickStarted);
               if (jumpProgress < 1.1) {
                 this.pos.y =
                   this.jump.heightStarted +
@@ -745,7 +744,12 @@ class Player {
       }
     }
   }
-  drawWaveAndTrails() {}
+
+  unrenderAllWaveTrails() {
+    while (this.renderedWaveTrails.length > 0) {
+      this.renderedWaveTrails.shift();
+    }
+  }
 
   drawWaveTrail(x, y, width, length, angle) {
     c.fillStyle = "#000";
