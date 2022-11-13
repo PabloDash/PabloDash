@@ -37,7 +37,8 @@ const moi_playground = [
   { type: "block", originalPos: { x: 43, y: 1.8 } },
   { type: "block", originalPos: { x: 44, y: 1.8 } },
   { type: "block", originalPos: { x: 45, y: 1.8 } },
-  { type: "flatSpike", originalPos: { x: 45, y: 0.8 }, rotation: 1 },
+  { type: "block", originalPos: { x: 46, y: 1.8 } },
+  { type: "flatSpike", originalPos: { x: 46, y: 0.8 }, rotation: 1 },
 
   { type: "spike", originalPos: { x: 29, y: 10 }, rotation: 0 },
   { type: "block", originalPos: { x: 29, y: 9 } },
@@ -58,11 +59,12 @@ const moi_playground = [
   { type: "block", originalPos: { x: 43, y: 6 } },
   { type: "block", originalPos: { x: 44, y: 6 } },
   { type: "block", originalPos: { x: 45, y: 6 } },
-  { type: "block", originalPos: { x: 46, y: 7 } },
-  { type: "block", originalPos: { x: 47, y: 8 } },
-  { type: "block", originalPos: { x: 47, y: 9 } },
-  { type: "block", originalPos: { x: 47, y: 10 } },
-  { type: "spike", originalPos: { x: 47, y: 11 }, rotation: 0 },
+  { type: "block", originalPos: { x: 46, y: 6 } },
+  { type: "block", originalPos: { x: 47, y: 7 } },
+  { type: "block", originalPos: { x: 48, y: 8 } },
+  { type: "block", originalPos: { x: 48, y: 9 } },
+  { type: "block", originalPos: { x: 48, y: 10 } },
+  { type: "spike", originalPos: { x: 48, y: 11 }, rotation: 0 },
 
   { type: "spike", originalPos: { x: 29, y: 2.8 }, rotation: 0 },
   { type: "flatSpike", originalPos: { x: 30, y: 2.8 }, rotation: 0 },
@@ -85,8 +87,8 @@ const moi_playground = [
 
   { type: "spike", originalPos: { x: 44, y: 5 }, rotation: 1 },
 
-  { type: "block", originalPos: { x: 45, y: 2.8 } },
-  { type: "spike", originalPos: { x: 45, y: 3.8 } },
+  { type: "block", originalPos: { x: 46, y: 2.8 } },
+  { type: "spike", originalPos: { x: 46, y: 3.8 } },
 
-  { type: "spike", originalPos: { x: 46, y: 6 }, rotation: 1.5 },
+  { type: "spike", originalPos: { x: 47, y: 6 }, rotation: 1.5 },
 ];
